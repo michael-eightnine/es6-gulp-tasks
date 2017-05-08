@@ -35,3 +35,10 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Generated directories
+compiled
+dist
+
+# Etc
+_DS_Store
