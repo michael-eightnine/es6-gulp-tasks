@@ -23,18 +23,18 @@ var cssnano = require('gulp-cssnano');
 /*************************
 -- PATH VARS
 *************************/
+var devDirectory = 'site';
 var paths = {
-	devDir: 'site',
 	src: {
-		jsEntry: './site/js/app.js',
-		jsAll: './site/js/**/*.js',
-		scssEntry: './site/scss/main.scss',
-		scssAll: './site/scss/**/*.scss',
-		htmlAll: './site/*.html'
+		jsEntry: devDirectory + '/js/app.js',
+		jsAll: devDirectory + '/js/**/*.js',
+		scssEntry: devDirectory + '/scss/main.scss',
+		scssAll: devDirectory + '/scss/**/*.scss',
+		htmlAll: devDirectory + '/*.html'
 	},
 	out: {
-		jsOut: './site/compiled/js',
-		cssOut: './site/compiled/css'
+		jsOut: devDirectory + '/compiled/js',
+		cssOut: devDirectory + '/compiled/css'
 	},
 	dist: {
 		base: './dist',
@@ -91,7 +91,7 @@ gulp.task('watch', ['browserSync', 'scss', 'js'], function() {
 gulp.task('browserSync', function() {
 	browserSync.init({
 		server: {
-			baseDir: paths.devDir
+			baseDir: devDirectory
 		}
 	});
 });
@@ -103,7 +103,7 @@ gulp.task('build-clean', function() {
 	return del([paths.dist.base]);
 });
 
-//minify from index imports
+// Minify and bundle resources referenced in HTML
 gulp.task('useref', function() {
 	return gulp
 		.src(paths.src.htmlAll)
@@ -113,6 +113,7 @@ gulp.task('useref', function() {
 		.pipe(gulp.dest(paths.dist.base));
 });
 
+// Add cache strings to resources referenced in HTML
 gulp.task('cachebust', function() {
 	return gulp
 		.src(paths.dist.htmlEntry)
